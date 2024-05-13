@@ -7,77 +7,80 @@
                     <h3>Ticket Subject Here</h3>
                 </div>
 
-                <div id="messages">
-                    <!-- Message -->
-                    <div class="message">
-                        <div class="message-top">
-                            <div>
-                                <img
-                                    src="../assets/cat.jpg"
-                                    alt="Profile Picture"
-                                />
-                                <h4>User Name Here</h4>
-                            </div>
+              <!--TODO: Fetch Messages with ID for this specific Ticket-->
 
-                            <div class="date">
-                                <p>October 17, 2006</p>
-                                <p>3:26PM</p>
-                            </div>
-                        </div>
+<!--                <div id="messages">-->
+<!--                    &lt;!&ndash; Message &ndash;&gt;-->
+<!--                    <div class="message">-->
+<!--                        <div class="message-top">-->
+<!--                            <div>-->
+<!--                                <img-->
+<!--                                    src="../assets/cat.jpg"-->
+<!--                                    alt="Profile Picture"-->
+<!--                                />-->
+<!--                                <h4>User Name Here</h4>-->
+<!--                            </div>-->
 
-                        <div class="message-bottom">
-                            <p>
-                                Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Velit aliquam deserunt maiores
-                                reprehenderit ipsum labore fuga excepturi
-                                officiis laboriosam, repudiandae non modi sed
-                                fugit atque iure amet! Rerum, quidem vel!
-                            </p>
-                        </div>
-                    </div>
+<!--                            <div class="date">-->
+<!--                                <p>October 17, 2006</p>-->
+<!--                                <p>3:26PM</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
 
-                    <!-- Note -->
-                    <div class="note">
-                        <p>Someone assigned ticket #4502 to Cody</p>
-                        <p>October 17, 2006 4:14PM</p>
-                    </div>
+<!--                        <div class="message-bottom">-->
+<!--                            <p>-->
+<!--                                Lorem ipsum dolor, sit amet consectetur-->
+<!--                                adipisicing elit. Velit aliquam deserunt maiores-->
+<!--                                reprehenderit ipsum labore fuga excepturi-->
+<!--                                officiis laboriosam, repudiandae non modi sed-->
+<!--                                fugit atque iure amet! Rerum, quidem vel!-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <!-- Message -->
-                    <div class="message">
-                        <div class="message-top">
-                            <div>
-                                <img
-                                    src="../assets/cat.jpg"
-                                    alt="Profile Picture"
-                                />
-                                <h4>User Name Here</h4>
-                            </div>
+<!--                    &lt;!&ndash; Note &ndash;&gt;-->
+<!--                    <div class="note">-->
+<!--                        <p>Someone assigned ticket #4502 to Cody</p>-->
+<!--                        <p>October 17, 2006 4:14PM</p>-->
+<!--                    </div>-->
 
-                            <div class="date">
-                                <p>October 17, 2006</p>
-                                <p>3:26PM</p>
-                            </div>
-                        </div>
+<!--                    &lt;!&ndash; Message &ndash;&gt;-->
+<!--                    <div class="message">-->
+<!--                        <div class="message-top">-->
+<!--                            <div>-->
+<!--                                <img-->
+<!--                                    src="../assets/cat.jpg"-->
+<!--                                    alt="Profile Picture"-->
+<!--                                />-->
+<!--                                <h4>User Name Here</h4>-->
+<!--                            </div>-->
 
-                        <div class="message-bottom">
-                            <p>
-                                Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Velit aliquam deserunt maiores
-                                reprehenderit ipsum labore fuga excepturi
-                                officiis laboriosam, repudiandae non modi sed
-                                fugit atque iure amet! Rerum, quidem vel!
-                            </p>
-                        </div>
-                    </div>
+<!--                            <div class="date">-->
+<!--                                <p>October 17, 2006</p>-->
+<!--                                <p>3:26PM</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
 
-                    <!-- Note -->
-                    <div class="note">
-                        <p>Someone added #Not an issue labels</p>
-                        <p>October 17, 2006 4:14PM</p>
-                    </div>
-                </div>
+<!--                        <div class="message-bottom">-->
+<!--                            <p>-->
+<!--                                Lorem ipsum dolor, sit amet consectetur-->
+<!--                                adipisicing elit. Velit aliquam deserunt maiores-->
+<!--                                reprehenderit ipsum labore fuga excepturi-->
+<!--                                officiis laboriosam, repudiandae non modi sed-->
+<!--                                fugit atque iure amet! Rerum, quidem vel!-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Note &ndash;&gt;-->
+<!--                    <div class="note">-->
+<!--                        <p>Someone added #Not an issue labels</p>-->
+<!--                        <p>October 17, 2006 4:14PM</p>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
 
+          <!--TODO: Update Message-box to submit and post messages to DB-->
             <form id="message-box">
                 <textarea placeholder="Type a message..."></textarea>
                 <div id="message-box-btns">
@@ -87,6 +90,7 @@
             </form>
         </main>
 
+      <!--TODO: Change Aside to template Ticket Info and Stylize-->
         <aside>
             <div>
                 <h2>Ticket Overview</h2>

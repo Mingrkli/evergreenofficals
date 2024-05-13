@@ -83,19 +83,19 @@ export default {
       console.log(this.ticket);
 
       // Adds the ticket to the database
-      // fetch("http://localhost:8080/add", {
-      //     method: "POST",
-      //     headers: {
-      //         "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(this.ticket),
-      // }).then((data) => {
-      //     // TESTING
-      //     // console.log(data);
-      //
-      //     // Returns user to home
-      //     this.$router.push("/");
-      // });
+      fetch("http://localhost:8080/add", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.ticket),
+      }).then((data) => {
+          // TESTING
+          // console.log(data);
+
+          // Returns user to home
+          this.$router.push("/");
+      });
     },
   },
 };

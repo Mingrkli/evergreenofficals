@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Here is the information and details about Ticket
  */
@@ -20,6 +24,9 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @OneToMany(mappedBy="ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TicketMessages> messages = new ArrayList<TicketMessages>();
+//    private Set<TicketMessages> ticketMessages;
     private String name;
     private String created;
     private String lastMessage;
