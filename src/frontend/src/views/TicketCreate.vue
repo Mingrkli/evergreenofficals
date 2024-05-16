@@ -87,7 +87,7 @@ export default {
       // console.log(ticketCopy);
 
       // Adds the ticket to the database
-      fetch("http://localhost:8080/add", {
+      fetch("https://evergreenofficals-a4332d203a2f.herokuapp.com/add", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
