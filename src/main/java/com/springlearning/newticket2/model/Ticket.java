@@ -1,10 +1,14 @@
 package com.springlearning.newticket2.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Here is the information and details about Ticket
@@ -22,9 +26,14 @@ public class Ticket {
     private long id;
     private String name;
     private String created;
-    private String lastMessage;
+    private String lastMessage; // chnaged to date
     private String status;
     private String groupID;
     private String priority;
     private String type;
+
+    // "orphanRemoval = true" means that when the parent is gone the childs are too :(
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    // We will have a list here since we would have many messages
+    private List<TicketMessage> ticketMessages = new ArrayList<TicketMessage>();
 }

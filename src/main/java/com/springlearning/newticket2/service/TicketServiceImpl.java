@@ -13,6 +13,8 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
+    // explain more in javadoc @return :D
+
     /**
      * Adds a Ticket
      *
@@ -27,10 +29,22 @@ public class TicketServiceImpl implements TicketService {
     /**
      * Gets the list of Tickets
      *
+     * @return all tickets in the database
+     */
+    @Override
+    // change to findAllTickets
+    public List<Ticket> getTickets() {
+        return (List<Ticket>) ticketRepository.findAll();
+    }
+
+    /**
+     * Get the ticket by id
+     *
+     * @param id ticket id
      * @return
      */
     @Override
-    public List<Ticket> getTickets() {
-        return (List<Ticket>) ticketRepository.findAll();
+    public Ticket getTicketById(long id) {
+        return ticketRepository.findById(id).get();
     }
 }
