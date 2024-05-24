@@ -1,7 +1,7 @@
-<!--Hi Ming, this is Toby from the future...-->
-<!--Hi Ming Once again-->
-<!--Hi Ming Once again, again...-->
-<template>
+Hi Ming, this is Toby from the future...
+Hi Ming Once again
+Hi Ming Once again, again...
+<template xmlns:th="http://www.w3.org/1999/xhtml">
   <div id="ticket-create">
     <div id="ticket-list-title">
       <h1>Ticket Create</h1>
@@ -14,9 +14,14 @@
         <input
             type="text"
             name="name"
+            th:field="*{ticketName}"
             placeholder="Ticket Name"
+            th:field="*{name}"
+
             v-model="ticket.name"
         />
+        <!--ThymeLeaf Toby edit-->
+        <p th:if="${fields.hasErrors('name')}" th:errors="*{name}"></p>
       </div>
 
       <div>
@@ -29,6 +34,8 @@
               <option value="High">High</option>
               <option value="Critical">Critical</option>
             </select>
+            <p th:if="${fields.hasErrors('ticketName')}" th:errors="*{ticketName}"></p>
+
           </div>
 
           <div class="option">
@@ -38,12 +45,14 @@
               <option value="Bug">Bug</option>
               <option value="Feature">Feature</option>
             </select>
+            <p th:if="${fields.hasErrors('ticketName')}" th:errors="*{ticketName}"></p>
+
           </div>
         </div>
       </div>
 
       <div id="message-box">
-        <textarea placeholder="Type a message...">This has not been implemented yet...</textarea>
+        <textarea placeholder="Type a message..."></textarea>
         <div id="message-box-btns">
           <button type="submit" id="submit-btn">Submit</button>
         </div>
@@ -58,8 +67,8 @@ export default {
     return {
       ticket: {
         name: "",
-        created: "not implemented",
-        lastMessage: "not implemented",
+        created: "",
+        lastMessage: "",
         status: "Open",
         groupID: "not implemented",
         priority: "Low",
@@ -80,27 +89,26 @@ export default {
       this.created = currentDate;
       this.lastMessage = currentDate;
 
-      // We'll save a copy of this.ticket to avoid mutating the original object and apparently it works
-      const ticketCopy = { ...this.ticket, created: currentDate, lastMessage: currentDate };
-
-      // TESTING
-      // console.log(ticketCopy);
+      console.log(this.ticket);
 
       // Adds the ticket to the database
-      fetch("https://evergreenofficals-a4332d203a2f.herokuapp.com/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(ticketCopy),
+      fetch("http://localhost:8080/add", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.ticket),
       }).then((data) => {
-        // TESTING
-        // console.log(data);
+          // TESTING
+          // console.log(data);
 
-        // Returns user to home
-        this.$router.push("/");
+          // Returns user to home
+          this.$router.push("/");
       });
     },
   },
 };
 </script>
+
+<script></script>
+<template></template>
