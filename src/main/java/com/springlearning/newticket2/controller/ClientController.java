@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
 @RestController
 public class ClientController {
     // Repository
@@ -25,33 +27,44 @@ public class ClientController {
 
     /**
      * Adds the ticket
+     *
      * @param ticket
      * @return
      */
-    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
     @PostMapping("/add")
-    public String addTicket(@Valid @RequestBody Ticket ticket,
-                            BindingResult bindingResult) {
+    public ResponseEntity<Map<String, String>> addTicket(
+            @Valid @RequestBody Ticket ticket,
+            BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
-            return "/create";
+            Map<String, String> errors = new HashMap<>();
+
+            bindingResult.getAllErrors().forEach((error) -> {
+                String fieldName = ((FieldError) error).getField();
+                String errorMessage = error.getDefaultMessage();
+                errors.put(fieldName, errorMessage);
+            });
+//            model.getAttribute("errors", errors);
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-//        if (bindingResult.hasErrors()) {
-//            return ResponseEntity.badRequest().body(
-//                    bindingResult.getAllErrors().stream().map(
-//                            ObjectError::getDefaultMessage).collect(
-//                                    Collectors.joining())
-//            );
-//        }
         ticketService.addTicket(ticket);
-        return "Ticket added";
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
+    /**
+     * Gets all the tickets form the database
+     * @return
+     */
     @RequestMapping("/tickets")
     public List<Ticket> getTickets() {
         return ticketService.getTickets();
     }
+
+//    @GetMapping("/ticket/{id}")
+//    public Ticket getTicketById(@PathVariable long id) {
+//        return ticketService;
+//    }
 
     /**
      * Handles exception for invalid user input and displays

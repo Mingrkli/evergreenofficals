@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Here is the information and details about Ticket
@@ -30,9 +29,7 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToMany(mappedBy="ticket", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TicketMessages> messages = new ArrayList<TicketMessages>();
-//    private Set<TicketMessages> ticketMessages;
+
     @NotNull(message = "Ticket Name Required")
     @NotBlank(message = "Ticket Name Required")
     @Size(min=4, max=50, message = "Please provide a descriptive" +
@@ -59,4 +56,7 @@ public class Ticket {
     
     @NotBlank(message = "Please Select a Type For This Ticket")
     private String type;
+
+    @OneToMany(mappedBy="ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TicketMessages> messages = new ArrayList<TicketMessages>();
 }

@@ -68,6 +68,7 @@ export default {
     };
   },
   methods: {
+
     // Adds a ticket
     addTicket() {
       // gets the current date in this format MM-DD-YYYY | HH:MM
