@@ -8,6 +8,7 @@
 
 <script>
 import Navbar from "@/components/Navbar.vue";
+import Button from "primevue/button";
 
 export default {
     components: {
