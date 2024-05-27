@@ -76,8 +76,8 @@ import Column from "primevue/column";
 const router = useRouter();
 
 function onRowClick(event) {
-  const index = event.index;
-  goToPage(index);
+  const index = Number(event.data.id);
+  goToPage(index - 1);
 }
 
 function goToPage(number) {
@@ -99,7 +99,7 @@ export default {
     methods: {
         // Fetch all the tickets, save it into tickets array
         getTickets() {
-            fetch("http://localhost:8080/tickets")
+            fetch("https://evergreenofficals-a4332d203a2f.herokuapp.com/tickets")
                 .then((res) => res.json())
                 .then((data) => {
                     this.tickets = data;

@@ -119,17 +119,17 @@
     width: 1.5rem;
     height: 1.5rem;
 
-    background-image: url("testing/square-sort-vertical.svg") ;
+    background-image: url("sorting-icons/square-sort-vertical.svg") ;
     background-position: center right;
     background-repeat: no-repeat;
     object-fit: cover;
 }
 
 .p-datatable .p-sortable-column-icon[sortOrder="1"] {
-    background-image: url("testing/sort-2.svg") ;
+    background-image: url("sorting-icons/sort-2.svg") ;
     transform: rotate(180deg);
 }
 
 .p-datatable .p-sortable-column-icon[sortOrder="-1"] {
-    background-image: url("testing/sort-2.svg");
+    background-image: url("sorting-icons/sort-2.svg");
 }

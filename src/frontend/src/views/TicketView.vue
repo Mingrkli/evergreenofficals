@@ -80,7 +80,7 @@ export default {
     getTicketMessages() {
       // "this.$route.params.index" will get the index number and ".index" is from routes and you can call it whatever
       // you want I just liked index XD
-      fetch(`http://localhost:8080/ticket/${this.$route.params.index}/messages`)
+      fetch(`https://evergreenofficals-a4332d203a2f.herokuapp.com/ticket/${this.$route.params.index}/messages`)
           .then((res) => res.json())
           .then((data) => {
             this.ticketMessages = data;
@@ -92,7 +92,7 @@ export default {
 
     // This will get the current ticket information so that we can use it on the aside
     getTicket() {
-      fetch(`http://localhost:8080/ticket/${this.$route.params.index}`)
+      fetch(`https://evergreenofficals-a4332d203a2f.herokuapp.com/ticket/${this.$route.params.index}`)
           .then((res) => res.json())
           .then((data) => {
             this.ticket = data;
@@ -104,7 +104,7 @@ export default {
 
     // This will add the message to the database on the current ticket
     addMessage() {
-      fetch(`http://localhost:8080/add/message/${this.$route.params.index}`, {
+      fetch(`https://evergreenofficals-a4332d203a2f.herokuapp.com/message/${this.$route.params.index}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
