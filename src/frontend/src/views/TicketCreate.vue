@@ -17,6 +17,7 @@
             placeholder="Ticket Name"
             v-model="ticket.name"
         />
+        <p v-if="errorName" class="error">{{errorName}}</p>
       </div>
 
       <div>
@@ -43,17 +44,52 @@
       </div>
 
       <div id="message-box">
-        <textarea placeholder="Type a message...">This has not been implemented yet...</textarea>
+        <textarea placeholder="Type a message..." v-model="ticket.lastMessage"></textarea>
         <div id="message-box-btns">
-          <button type="submit" id="submit-btn">Submit</button>
+          <!--Added click event-->
+          <button @click="submitForm" type="submit" id="submit-btn">Submit</button>
         </div>
+        <p v-if="errorMessage" class="error">{{errorMessage}}</p>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+// import useValidate from "@vuelidate/core";
+// import { required } from "@vuelidate/validators";
+// import {reactive, computed} from 'vue'
+
 export default {
+  // setup() {
+  //   const state = reactive ({
+  //     name: "",
+  //     created: "not implemented",
+  //     lastMessage: "",
+  //     status: "Open",
+  //     groupID: "not implemented",
+  //     priority: "Low",
+  //     type: "Question",
+  //   })
+  //   const rules = computed(() => {
+  //     return {
+  //       name: { required },
+  //       created: "not implemented",
+  //       lastMessage: "",
+  //       status: "Open",
+  //       groupID: "not implemented",
+  //       priority: { required },
+  //       type: { required },
+  //     }
+  //   })
+  //   const v$ = useValidate(rules, state)
+  //
+  //   return {
+  //     state,
+  //     v$
+  //   }
+  // },
+  //
   data() {
     return {
       ticket: {
@@ -65,9 +101,21 @@ export default {
         priority: "Low",
         type: "Question",
       },
+      errorName: "",
+      errorMessage: "",
     };
   },
+  
   methods: {
+    // submitForm() {
+    //   alert("Form Succeeded")
+    //   this.v$.$validate()
+    //   if (!this.v$.$error) {
+    //     alert("Form Success")
+    //   } else {
+    //     alert('Form failed')
+    //   }
+    // },
     // Adds a ticket
     addTicket() {
       // gets the current date in this format MM-DD-YYYY | HH:MM
@@ -97,10 +145,44 @@ export default {
           // TESTING
           // console.log(data);
 
-          // Returns user to home
-          this.$router.push("/");
+        if (data.status === 400) {
+          // The user stays in the same page
+          // this.error = "Please enter valid name.";
+
+          // console.log(data.text())
+          // this.error = JSON.parse(data.text());
+
+          data.text().then((errorMessage) => {
+            // this.error = errorMessage;
+
+            // console.log(errorMessage)
+
+            let testing = JSON.parse(errorMessage);
+            // console.log(testing)
+            this.errorName = testing.name;
+            this.errorMessage = testing.lastMessage;
+            console.log(this.lastMessage);
+          })
+        }
+        if (data.status !== 200) {
+          // this.$router.push("/");
+        }
+
+
+        // else {
+        //   this.error = "";
+        //
+        //   // Returns user to home
+        //   // this.$router.push("/");
+        // }
       });
     },
   },
 };
 </script>
+
+<style scoped>
+  .error {
+    color: red;
+  }
+</style>
