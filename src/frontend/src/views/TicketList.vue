@@ -72,7 +72,7 @@ export default {
     methods: {
         // Fetch all the tickets, save it into tickets array
         getTickets() {
-            fetch("https://evergreenofficals-a4332d203a2f.herokuapp.com/tickets")
+            fetch("http://localhost:8080/tickets")
                 .then((res) => res.json())
                 .then((data) => {
                     this.tickets = data;

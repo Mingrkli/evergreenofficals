@@ -47,7 +47,7 @@
         <textarea placeholder="Type a message..." v-model="ticket.lastMessage"></textarea>
         <div id="message-box-btns">
           <!--Added click event-->
-          <button @click="submitForm" type="submit" id="submit-btn">Submit</button>
+          <button @click="submitForm" type="submit" id="submit-btn" disabled>Submit</button>
         </div>
         <p v-if="errorMessage" class="error">{{errorMessage}}</p>
       </div>
@@ -105,7 +105,23 @@ export default {
       errorMessage: "",
     };
   },
-  
+  watch: {
+    'ticket.name': function(newValue) {
+      if (newValue.length <= 4) {
+        this.errorName = "The ticket name must be longer than 4 characters.";
+      } else {
+        this.errorName = "";
+      }
+
+      // If errorName has a value, disable the button
+      if (this.errorName !== "") {
+        document.getElementById("submit-btn").disabled = true;
+      } else {
+        // Otherwise, enable the button
+        document.getElementById("submit-btn").disabled = false;
+      }
+    },
+  },
   methods: {
     // submitForm() {
     //   alert("Form Succeeded")
@@ -135,7 +151,7 @@ export default {
       // console.log(ticketCopy);
 
       // Adds the ticket to the database
-      fetch("https://evergreenofficals-a4332d203a2f.herokuapp.com/add", {
+      fetch("http://localhost:8080/add", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -149,6 +165,7 @@ export default {
           // The user stays in the same page
           // this.error = "Please enter valid name.";
 
+          // console.log(data);
           // console.log(data.text())
           // this.error = JSON.parse(data.text());
 
@@ -161,13 +178,16 @@ export default {
             // console.log(testing)
             this.errorName = testing.name;
             this.errorMessage = testing.lastMessage;
-            console.log(this.lastMessage);
+            // console.log(this.lastMessage);
           })
         }
-        if (data.status !== 200) {
-          // this.$router.push("/");
+        else if (data.status === 200 || data.status === 201) {
+          this.$router.push("/")
         }
-
+        else {
+          // Log out other status
+          console.error("Error:", data.status);
+        }
 
         // else {
         //   this.error = "";
@@ -184,5 +204,10 @@ export default {
 <style scoped>
   .error {
     color: red;
+  }
+
+  #submit-btn:disabled {
+    background-color: gray;
+    cursor: default;
   }
 </style>
