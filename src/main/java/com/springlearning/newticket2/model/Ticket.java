@@ -39,7 +39,6 @@ public class Ticket {
     private String name;
 
     private String created;
-
     @NotNull(message = "Please Describe How We Can Help You")
     @NotBlank(message = "Please Describe How We Can Help You")
 //    @Size(min=50, max=700, message =
@@ -48,7 +47,6 @@ public class Ticket {
 //                    "at least 50 characters and should not exceed 1000 " +
 //                    "characters...")
     private String lastMessage; // change to date
-
     private String status;
     
     private String groupID;
