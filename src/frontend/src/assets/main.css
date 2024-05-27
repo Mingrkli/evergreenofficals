@@ -15,5 +15,8 @@
     text-decoration: none;
     background-color: rgb(55, 121, 235);
 
+    border: none;
     border-radius: 5px;
+
+    cursor: pointer;
 }

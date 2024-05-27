@@ -2,44 +2,47 @@
 <!--Hi Ming Once again-->
 <!--Hi Ming Once again, again...-->
 <template>
+  <div class="ticketCreateContainer">
   <div id="ticket-create">
     <div id="ticket-list-title">
       <h1>Ticket Create</h1>
-      <router-link to="/" class="btn">Back</router-link>
+      <button class="btn" @click="$emit('ticket-created-popup')">Back</button>
     </div>
 
     <form @submit.prevent="addTicket">
       <div>
         <label for="name">Ticket Name</label>
-        <input
-            type="text"
-            name="name"
-            placeholder="Ticket Name"
-            v-model="ticket.name"
-        />
+        <InputText name="name" v-model="ticket.name" placeholder="Ticket Name"/>
         <p v-if="errorName" class="error">{{errorName}}</p>
       </div>
 
       <div>
         <div id="options">
-          <div class="option">
-            <label for="priority">Priority</label>
-            <select v-model="ticket.priority" name="priority">
-              <option value="Low">Low</option>
-              <option value="Mid">Mid</option>
-              <option value="High">High</option>
-              <option value="Critical">Critical</option>
-            </select>
-          </div>
 
-          <div class="option">
-            <label for="type">Type</label>
-            <select v-model="ticket.type" name="type">
-              <option value="Question">Question</option>
-              <option value="Bug">Bug</option>
-              <option value="Feature">Feature</option>
-            </select>
-          </div>
+          <Dropdown v-model="ticket.priority" :options="priorities" placeholder="Select a Priority" class="option" />
+
+<!--          <div class="option">-->
+<!--            -->
+
+<!--                        <label for="priority">Priority</label>-->
+<!--            <select v-model="ticket.priority" name="priority">-->
+<!--              <option value="Low">Low</option>-->
+<!--              <option value="Mid">Mid</option>-->
+<!--              <option value="High">High</option>-->
+<!--              <option value="Critical">Critical</option>-->
+<!--            </select>-->
+<!--          </div>-->
+
+          <Dropdown v-model="ticket.type" :options="types" placeholder="Select a Type" class="option" />
+
+<!--          <div class="option">-->
+<!--            <label for="type">Type</label>-->
+<!--            <select v-model="ticket.type" name="type">-->
+<!--              <option value="Question">Question</option>-->
+<!--              <option value="Bug">Bug</option>-->
+<!--              <option value="Feature">Feature</option>-->
+<!--            </select>-->
+<!--          </div>-->
         </div>
       </div>
 
@@ -53,7 +56,13 @@
       </div>
     </form>
   </div>
+  </div>
 </template>
+
+<script setup>
+import InputText from "primevue/inputtext";
+import Dropdown from 'primevue/dropdown';
+</script>
 
 <script>
 // import useValidate from "@vuelidate/core";
@@ -61,35 +70,6 @@
 // import {reactive, computed} from 'vue'
 
 export default {
-  // setup() {
-  //   const state = reactive ({
-  //     name: "",
-  //     created: "not implemented",
-  //     lastMessage: "",
-  //     status: "Open",
-  //     groupID: "not implemented",
-  //     priority: "Low",
-  //     type: "Question",
-  //   })
-  //   const rules = computed(() => {
-  //     return {
-  //       name: { required },
-  //       created: "not implemented",
-  //       lastMessage: "",
-  //       status: "Open",
-  //       groupID: "not implemented",
-  //       priority: { required },
-  //       type: { required },
-  //     }
-  //   })
-  //   const v$ = useValidate(rules, state)
-  //
-  //   return {
-  //     state,
-  //     v$
-  //   }
-  // },
-  //
   data() {
     return {
       ticket: {
@@ -103,13 +83,24 @@ export default {
       },
       errorName: "",
       errorMessage: "",
+      priorities: ["Low", "Mid", "High", "Critical"],
+      types: [ 'Question', 'Bug', 'Feature'],
     };
   },
   watch: {
     'ticket.name': function(newValue) {
+      // What special characters are not allowed
+      const character = /[`@#$%^&*()_+\-=[\]{};':"\\|,.<>/~]/
+
+      // If length is less than 4
       if (newValue.length <= 4) {
         this.errorName = "The ticket name must be longer than 4 characters.";
-      } else {
+      }
+      // Test if the newValue has special characters
+      else if (character.test(newValue)) {
+        this.errorName = "The ticket name can't contain special characters.";
+      }
+      else {
         this.errorName = "";
       }
 
@@ -123,15 +114,6 @@ export default {
     },
   },
   methods: {
-    // submitForm() {
-    //   alert("Form Succeeded")
-    //   this.v$.$validate()
-    //   if (!this.v$.$error) {
-    //     alert("Form Success")
-    //   } else {
-    //     alert('Form failed')
-    //   }
-    // },
     // Adds a ticket
     addTicket() {
       // gets the current date in this format MM-DD-YYYY | HH:MM
@@ -182,7 +164,9 @@ export default {
           })
         }
         else if (data.status === 200 || data.status === 201) {
-          this.$router.push("/")
+          this.$emit('ticket-created');
+          this.$emit('ticket-created-popup');
+          window.scrollTo(0, document.body.scrollHeight);
         }
         else {
           // Log out other status

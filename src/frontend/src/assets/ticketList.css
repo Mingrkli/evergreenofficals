@@ -17,7 +17,7 @@
     border-bottom: 1px solid lightgray;
 }
 
-#ticket-list-title a {
+#ticket-list-title > button {
     position: absolute;
     right: 0;
     top: 50%;
@@ -25,6 +25,10 @@
 }
 
 /* Table */
+.dataTable {
+    width: 100%;
+}
+
 #ticket-list table,
 #ticket-list td,
 #ticket-list th {
@@ -51,12 +55,38 @@
 }
 
 /* Table Head */
-#ticket-list table thead {
+/*#ticket-list table thead {*/
+/*    color: white;*/
+/*    background-color: var(--c-nav-bg);*/
+/*}*/
+
+#ticket-list table thead tr th {
     color: white;
     background-color: var(--c-nav-bg);
 }
 
-/* Table Body */
+#ticket-list table thead tr th:hover {
+    background-color: var(--c-nav-bg);
+    filter: brightness(1.3);
+
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+}
+
+#ticket-list table thead tr th div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .5rem;
+}
+
+#ticket-list table thead tr th div span:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    /* Table Body */
 #ticket-list tbody tr {
     transition: var(--transition);
 }
@@ -73,4 +103,33 @@
     background-color: gray;
 
     cursor: pointer;
+}
+
+/* Prime Vue */
+.p-column-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.p-sortable-column-icon * {
+    display: none;
+}
+
+.p-datatable .p-sortable-column-icon[sortOrder="0"] {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    background-image: url("testing/square-sort-vertical.svg") ;
+    background-position: center right;
+    background-repeat: no-repeat;
+    object-fit: cover;
+}
+
+.p-datatable .p-sortable-column-icon[sortOrder="1"] {
+    background-image: url("testing/sort-2.svg") ;
+    transform: rotate(180deg);
+}
+
+.p-datatable .p-sortable-column-icon[sortOrder="-1"] {
+    background-image: url("testing/sort-2.svg");
 }
