@@ -107,15 +107,15 @@ export default {
   },
   
   methods: {
-    submitForm() {
-      alert("Form Succeeded")
-      this.v$.$validate()
-      if (!this.v$.$error) {
-        alert("Form Success")
-      } else {
-        alert('Form failed')
-      }
-    },
+    // submitForm() {
+    //   alert("Form Succeeded")
+    //   this.v$.$validate()
+    //   if (!this.v$.$error) {
+    //     alert("Form Success")
+    //   } else {
+    //     alert('Form failed')
+    //   }
+    // },
     // Adds a ticket
     addTicket() {
       // gets the current date in this format MM-DD-YYYY | HH:MM
