@@ -88,6 +88,7 @@
 .message-bottom {
     padding: 1rem;
 
+    word-wrap: break-word;
     background-color: var(--c-message-bottom);
 }
 

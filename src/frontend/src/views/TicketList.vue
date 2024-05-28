@@ -1,54 +1,9 @@
 <template>
     <div id="ticket-list">
-        <div id="ticket-list-title">
+        <div class="ticket-list-title">
             <h1>Ticket List</h1>
             <button type="button" class="btn" @click="toggleTicketCreate">Create</button>
         </div>
-
-<!--        <table>-->
-<!--            <thead>-->
-<!--                <tr>-->
-<!--                    <th>Ticket ID</th>-->
-<!--                    <th>Ticket Name</th>-->
-<!--                    <th>Created</th>-->
-<!--                    <th>Last Message</th>-->
-<!--                    <th>Status</th>-->
-<!--                    <th>Group ID</th>-->
-<!--                    <th>Priority</th>-->
-<!--                    <th>Type</th>-->
-<!--                </tr>-->
-<!--            </thead>-->
-
-<!--            <tbody>-->
-<!--                <tr-->
-<!--                    v-for="(ticket, index) in tickets"-->
-<!--                    :key="ticket.id"-->
-<!--                    @click="goToPage(index)"-->
-<!--                >-->
-<!--                    <td>{{ ticket.id }}</td>-->
-<!--                    <td>{{ ticket.name }}</td>-->
-<!--                    <td>{{ ticket.created }}</td>-->
-<!--                    <td>{{ ticket.lastMessage }}</td>-->
-<!--                    <td>{{ ticket.status }}</td>-->
-<!--                    <td>{{ ticket.groupID }}</td>-->
-<!--                    <td>{{ ticket.priority }}</td>-->
-<!--                    <td>{{ ticket.type }}</td>-->
-<!--                </tr>-->
-
-
-
-<!--                &lt;!&ndash; <tr v-for="index in 10" @click="goToPage(4502)">-->
-<!--                    <td>4502</td>-->
-<!--                    <td>TICKET SUBJECT HERE</td>-->
-<!--                    <td>25 Nov 2024</td>-->
-<!--                    <td>27 Nov 2024</td>-->
-<!--                    <td>OPEN</td>-->
-<!--                    <td>456685442</td>-->
-<!--                    <td>Critical</td>-->
-<!--                    <td>Critical</td>-->
-<!--                </tr> &ndash;&gt;-->
-<!--            </tbody>-->
-<!--        </table>-->
 
       <DataTable :value="tickets" removableSort class="dataTable" @row-click="onRowClick">
         <Column field="id" header="Id" sortable></Column>
@@ -59,9 +14,18 @@
         <Column field="groupID" header="GroupID" sortable></Column>
         <Column field="priority" header="Priority" sortable></Column>
         <Column field="type" header="Type" sortable></Column>
+        <Column header="Actions">
+          <template  #body="slotProps">
+            <div id="action-btns">
+              <button type="button" class="btn edit-btn" @click="toggleTicketEdit(slotProps.data.id)"><span class="material-symbols-outlined">edit</span></button>
+              <button type="button" class="btn delete-btn" @click="deleteTicket(slotProps.data.id)"><span class="material-symbols-outlined">delete</span></button>
+            </div>
+          </template>
+        </Column>
       </DataTable>
 
-      <TicketCreate v-if="ticketCreateShown" id="ticket-popup" @ticket-created-popup="toggleTicketCreate" @ticket-created="getTickets"/>
+      <TicketCreate v-if="ticketCreateShown" @ticket-created-popup="toggleTicketCreate" @ticket-created="getTickets"/>
+      <TicketEdit :editID="editID" v-if="ticketEditShown" @ticket-created-popup="toggleTicketEdit" @ticket-created="getTickets"/>
     </div>
 </template>
 
@@ -70,7 +34,6 @@
 import { useRouter } from "vue-router";
 import DataTable from 'primevue/datatable';
 import Column from "primevue/column";
-
 
 // Gets access to the router
 const router = useRouter();
@@ -86,20 +49,22 @@ function goToPage(number) {
 </script>
 
 <script>
-import TicketCreate from "./TicketCreate.vue";
-
+import TicketCreate from "../components/TicketCreate.vue";
+import TicketEdit from "../components/TicketEdit.vue";
 
 export default {
     data() {
         return {
             tickets: [],
             ticketCreateShown: false,
+            ticketEditShown: false,
+            editID: "",
         };
     },
     methods: {
         // Fetch all the tickets, save it into tickets array
         getTickets() {
-            fetch("https://evergreenofficals-a4332d203a2f.herokuapp.com/tickets")
+            fetch("http://localhost:8080/tickets")
                 .then((res) => res.json())
                 .then((data) => {
                     this.tickets = data;
@@ -108,10 +73,23 @@ export default {
                     // console.log(data);
                 });
         },
-        // Toggle the ticket create popup
+      // Delete ticket
+      deleteTicket(id) {
+        fetch(`http://localhost:8080/ticket/delete/${id}`, {
+          method: "DELETE"
+        }).then((data) => {
+          this.getTickets();
+        })
+      },
+      // Toggle the ticket create popup
       toggleTicketCreate() {
           this.ticketCreateShown = !this.ticketCreateShown;
-      }
+      },
+      // Toggle the ticket create popup
+      toggleTicketEdit(id) {
+        this.ticketEditShown = !this.ticketEditShown;
+        this.editID = id;
+      },
     },
     beforeMount() {
         this.getTickets();
@@ -125,5 +103,23 @@ export default {
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
+}
+
+#action-btns {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#action-btns > * {
+  transition: 200ms ease-in-out;
+}
+
+#action-btns > *:hover {
+  filter: brightness(1.5);
+}
+
+.delete-btn {
+  background-color: #d40000;
 }
 </style>
