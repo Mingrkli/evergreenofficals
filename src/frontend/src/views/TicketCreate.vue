@@ -12,14 +12,14 @@
     <form @submit.prevent="addTicket">
       <div>
         <label for="name">Ticket Name</label>
-        <InputText name="name" v-model="ticket.name" placeholder="Ticket Name"/>
+        <InputText name="name" v-model="addTicketData.ticket.name" placeholder="Ticket Name"/>
         <p v-if="errorName" class="error">{{errorName}}</p>
       </div>
 
       <div>
         <div id="options">
 
-          <Dropdown v-model="ticket.priority" :options="priorities" placeholder="Select a Priority" class="option" />
+          <Dropdown v-model="addTicketData.ticket.priority" :options="priorities" placeholder="Select a Priority" class="option" />
 
 <!--          <div class="option">-->
 <!--            -->
@@ -33,7 +33,7 @@
 <!--            </select>-->
 <!--          </div>-->
 
-          <Dropdown v-model="ticket.type" :options="types" placeholder="Select a Type" class="option" />
+          <Dropdown v-model="addTicketData.ticket.type" :options="types" placeholder="Select a Type" class="option" />
 
 <!--          <div class="option">-->
 <!--            <label for="type">Type</label>-->
@@ -47,7 +47,7 @@
       </div>
 
       <div id="message-box">
-        <textarea placeholder="Type a message..." v-model="ticket.lastMessage"></textarea>
+        <textarea placeholder="Type a message..." v-model="addTicketData.messageInfo.message"></textarea>
         <div id="message-box-btns">
           <!--Added click event-->
           <button @click="submitForm" type="submit" id="submit-btn" disabled>Submit</button>
@@ -72,14 +72,21 @@ import Dropdown from 'primevue/dropdown';
 export default {
   data() {
     return {
-      ticket: {
-        name: "",
-        created: "not implemented",
-        lastMessage: "not implemented",
-        status: "Open",
-        groupID: "not implemented",
-        priority: "Low",
-        type: "Question",
+      addTicketData: {
+        ticket: {
+          name: "",
+          created: "not implemented",
+          lastMessage: "not implemented",
+          status: "Open",
+          groupID: "not implemented",
+          priority: "Low",
+          type: "Question",
+        },
+        messageInfo: {
+          message: "",
+          created: "",
+          username: "not implemented",
+        },
       },
       errorName: "",
       errorMessage: "",
@@ -88,7 +95,7 @@ export default {
     };
   },
   watch: {
-    'ticket.name': function(newValue) {
+    'addTicketData.ticket.name': function(newValue) {
       // What special characters are not allowed
       const character = /[`@#$%^&*()_+\-=[\]{};':"\\|,.<>/~]/
 
@@ -127,13 +134,16 @@ export default {
       this.lastMessage = currentDate;
 
       // We'll save a copy of this.ticket to avoid mutating the original object and apparently it works
-      const ticketCopy = { ...this.ticket, created: currentDate, lastMessage: currentDate };
+      const ticketCopy = {
+        ticket: {...this.addTicketData.ticket, created: currentDate, lastMessage: currentDate },
+        message: {...this.addTicketData.messageInfo, created:currentDate},
+      };
 
       // TESTING
       // console.log(ticketCopy);
 
       // Adds the ticket to the database
-      fetch("https://evergreenofficals-a4332d203a2f.herokuapp.com/add", {
+      fetch("http://localhost:8080/add", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
