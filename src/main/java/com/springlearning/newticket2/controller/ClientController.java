@@ -54,37 +54,11 @@ public class ClientController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-//        if (bindingResult.hasFieldErrors("ticket")) {
-//            Map<String, String> errors = new HashMap<>();
-//
-//            bindingResult.getFieldErrors("ticket").forEach((error) -> {
-//                String fieldName = error.getField();
-//                String errorMessage = error.getDefaultMessage();
-//                errors.put(fieldName, errorMessage);
-//            });
-//
-//            System.out.println("ERROR 1");
-//            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-//        }
-//        else if (bindingResult.hasFieldErrors("message")) {
-//            Map<String, String> errors = new HashMap<>();
-//
-//            bindingResult.getFieldErrors("message").forEach((error) -> {
-//                String fieldName = error.getField();
-//                String errorMessage = error.getDefaultMessage();
-//                errors.put(fieldName, errorMessage);
-//            });
-//
-//            System.out.println("ERROR 2");
-//            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-//        }
-
+        // Add the ticket and also save the results which we'll use it to add the message to the new ticket is created
         Ticket ticketAddedInfo = ticketService.addTicket(ticket);
         ticketMessageService.addTicketMessage(message, ticketAddedInfo.getId());
 
         return new ResponseEntity<>(HttpStatus.CREATED);
-        // return "Ticket added";
-        // return ResponseEntity.ok("Ticket added successfully.");
     }
 
     /**

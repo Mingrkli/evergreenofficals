@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import TicketList from "../views/TicketList.vue";
 import TicketView from "../views/TicketView.vue";
-import TicketCreate from "../views/TicketCreate.vue";
+// import TicketCreate from "../views/TicketCreate.vue";
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -19,11 +19,11 @@ const router = createRouter({
             component: TicketView,
         },
         // Creating a Ticket
-        {
-            path: "/create",
-            name: "Ticket Create",
-            component: TicketCreate,
-        },
+        // {
+        //     path: "/create",
+        //     name: "Ticket Create",
+        //     component: TicketCreate,
+        // },
     ],
 });
 
