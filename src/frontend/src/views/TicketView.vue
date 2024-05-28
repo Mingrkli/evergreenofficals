@@ -36,9 +36,11 @@
             <form id="message-box">
                 <textarea v-model="ticketMessage.message" placeholder="Type a message..."></textarea>
                 <div id="message-box-btns">
-                    <button type="button" id="default-btn">Default</button>
-                    <button type="submit" id="submit-btn" @click.prevent="addMessage">Submit</button>
+                  <InputText name="name" v-model="ticketMessage.username" placeholder="Your Name"/>
+<!--                  <button type="button" id="default-btn">Default</button>-->
+                    <button type="submit" id="submit-btn" @click.prevent="addMessage" :disabled="isSubmitDisabled">Submit</button>
                 </div>
+              <p v-if="errorMessage" class="error">{{errorMessage}}</p>
             </form>
         </main>
 
@@ -63,19 +65,43 @@
 </template>
 
 <script>
+import InputText from "primevue/inputtext";
+
 export default {
+  components: {InputText},
   data() {
     return {
       ticketMessages: [],
       ticket: {},
       ticketMessage: {
         message: "",
-        created: "not implemented",
-        username: "not implemented",
-      }
+        created: "",
+        username: "",
+      },
+      errorMessage: " ",
     };
   },
+  watch: {
+    'ticketMessage.message': 'validateMessage',
+  },
+  // With computed it automatically run when any of the dependencies they rely on change
+  computed: {
+    isSubmitDisabled() {
+      return this.errorMessage !== "";
+    }
+  },
   methods: {
+    validateMessage(newValue) {
+      const character = /[`@#$%^&*()_+\-=[\]{};'"\\|<>/~]/;
+
+      if (newValue.length < 50 || newValue.length > 700) {
+        this.errorMessage = "Description must be at least 50 to 700 characters.";
+      } else if (character.test(newValue)) {
+        this.errorMessage = "Description can't contain special characters.";
+      } else {
+        this.errorMessage = "";
+      }
+    },
     // Fetch all the tickets, save it into tickets array
     getTicketMessages() {
       // "this.$route.params.index" will get the index number and ".index" is from routes and you can call it whatever
@@ -104,16 +130,26 @@ export default {
 
     // This will add the message to the database on the current ticket
     addMessage() {
-      fetch(`http://localhost:8080/message/${this.$route.params.index}`, {
+      // gets the current date in this format MM-DD-YYYY | HH:MM
+      const date = new Date();
+      const currentDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.
+      getMinutes()}`
+      this.created = currentDate;
+
+      const ticketMessageCopy = {...this.ticketMessage, created:currentDate};
+
+      fetch(`http://localhost:8080/add/message/${this.$route.params.index}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(this.ticketMessage),
+        body: JSON.stringify(ticketMessageCopy),
       }).then((data) => {
         // After a messaged is added we will run the getTicketMessages() function which then should allow it to show up
         // in the messages area without the user needing to refresh the page themselves :D
         this.getTicketMessages();
+        this.ticketMessage.message = "";
+        window.scrollTo(0, document.body.scrollHeight);
 
         // TESTING
         // console.log(data);

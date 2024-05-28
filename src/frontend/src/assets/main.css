@@ -20,3 +20,12 @@
 
     cursor: pointer;
 }
+
+.error {
+    color: red;
+}
+
+#submit-btn:disabled {
+    background-color: gray;
+    cursor: default;
+}

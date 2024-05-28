@@ -122,5 +122,10 @@ public class ClientController {
 //        return errors;
 //    }
 
+    @DeleteMapping("/ticket/delete/{id}")
+    public String deleteTicket(@PathVariable long id) {
+        ticketService.deleteTicket(id);
+        return "Ticket deleted";
+    }
 }
 

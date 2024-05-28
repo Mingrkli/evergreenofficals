@@ -59,6 +59,14 @@
         <Column field="groupID" header="GroupID" sortable></Column>
         <Column field="priority" header="Priority" sortable></Column>
         <Column field="type" header="Type" sortable></Column>
+        <Column header="Actions">
+          <template  #body="slotProps">
+            <div id="action-btns">
+              <button type="button" class="btn edit-btn"><span class="material-symbols-outlined">edit</span></button>
+              <button type="button" class="btn delete-btn" @click="deleteTicket(slotProps.data.id)"><span class="material-symbols-outlined"> delete </span></button>
+            </div>
+          </template>
+        </Column>
       </DataTable>
 
       <TicketCreate v-if="ticketCreateShown" id="ticket-popup" @ticket-created-popup="toggleTicketCreate" @ticket-created="getTickets"/>
@@ -70,7 +78,6 @@
 import { useRouter } from "vue-router";
 import DataTable from 'primevue/datatable';
 import Column from "primevue/column";
-
 
 // Gets access to the router
 const router = useRouter();
@@ -108,10 +115,18 @@ export default {
                     // console.log(data);
                 });
         },
-        // Toggle the ticket create popup
+      // Delete ticket
+      deleteTicket(id) {
+        fetch(`http://localhost:8080/ticket/delete/${id}`, {
+          method: "DELETE"
+        }).then((data) => {
+          this.getTickets();
+        })
+      },
+      // Toggle the ticket create popup
       toggleTicketCreate() {
           this.ticketCreateShown = !this.ticketCreateShown;
-      }
+      },
     },
     beforeMount() {
         this.getTickets();
@@ -126,4 +141,23 @@ export default {
   left:50%;
   transform: translate(-50%, -50%);
 }
+
+#action-btns {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#action-btns > * {
+  transition: 200ms ease-in-out;
+}
+
+#action-btns > *:hover {
+  filter: brightness(1.5);
+}
+
+.delete-btn {
+  background-color: #d40000;
+}
+
 </style>

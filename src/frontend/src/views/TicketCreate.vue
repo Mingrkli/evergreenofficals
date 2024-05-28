@@ -13,7 +13,13 @@
       <div>
         <label for="name">Ticket Name</label>
         <InputText name="name" v-model="addTicketData.ticket.name" placeholder="Ticket Name"/>
+
         <p v-if="errorName" class="error">{{errorName}}</p>
+      </div>
+
+      <div>
+        <label for="name">Your Name</label>
+        <InputText name="name" v-model="addTicketData.messageInfo.username" placeholder="Your Name"/>
       </div>
 
       <div>
@@ -47,10 +53,10 @@
       </div>
 
       <div id="message-box">
-        <textarea placeholder="Type a message..." v-model="addTicketData.messageInfo.message"></textarea>
+        <textarea placeholder="Please Describe How We Can Help You..." v-model="addTicketData.messageInfo.message"></textarea>
         <div id="message-box-btns">
           <!--Added click event-->
-          <button @click="submitForm" type="submit" id="submit-btn" disabled>Submit</button>
+          <button @click="submitForm" type="submit" id="submit-btn" :disabled="isSubmitDisabled">Submit</button>
         </div>
         <p v-if="errorMessage" class="error">{{errorMessage}}</p>
       </div>
@@ -85,42 +91,48 @@ export default {
         messageInfo: {
           message: "",
           created: "",
-          username: "not implemented",
+          username: "",
         },
       },
-      errorName: "",
-      errorMessage: "",
+      errorName: " ",
+      errorMessage: " ",
       priorities: ["Low", "Mid", "High", "Critical"],
       types: [ 'Question', 'Bug', 'Feature'],
     };
   },
   watch: {
-    'addTicketData.ticket.name': function(newValue) {
-      // What special characters are not allowed
-      const character = /[`@#$%^&*()_+\-=[\]{};':"\\|,.<>/~]/
-
-      // If length is less than 4
-      if (newValue.length <= 4) {
-        this.errorName = "The ticket name must be longer than 4 characters.";
-      }
-      // Test if the newValue has special characters
-      else if (character.test(newValue)) {
-        this.errorName = "The ticket name can't contain special characters.";
-      }
-      else {
-        this.errorName = "";
-      }
-
-      // If errorName has a value, disable the button
-      if (this.errorName !== "") {
-        document.getElementById("submit-btn").disabled = true;
-      } else {
-        // Otherwise, enable the button
-        document.getElementById("submit-btn").disabled = false;
-      }
-    },
+    'addTicketData.ticket.name': 'validateName',
+    'addTicketData.messageInfo.message': 'validateMessage',
+  },
+  // With computed it automatically run when any of the dependencies they rely on change
+  computed: {
+    isSubmitDisabled() {
+      return this.errorName !== "" || this.errorMessage !== "";
+    }
   },
   methods: {
+    validateName(newValue) {
+      const character = /[`@#$%^&*()_+\-=[\]{};'"\\|<>/~]/;
+
+      if (newValue.length <= 4) {
+        this.errorName = "The ticket name must be longer than 4 characters.";
+      } else if (character.test(newValue)) {
+        this.errorName = "The ticket name can't contain special characters.";
+      } else {
+        this.errorName = "";
+      }
+    },
+    validateMessage(newValue) {
+      const character = /[`@#$%^&*()_+\-=[\]{};'"\\|<>/~]/;
+
+      if (newValue.length < 50 || newValue.length > 700) {
+        this.errorMessage = "Description must be at least 50 to 700 characters.";
+      } else if (character.test(newValue)) {
+        this.errorMessage = "Description can't contain special characters.";
+      } else {
+        this.errorMessage = "";
+      }
+    },
     // Adds a ticket
     addTicket() {
       // gets the current date in this format MM-DD-YYYY | HH:MM
@@ -196,12 +208,7 @@ export default {
 </script>
 
 <style scoped>
-  .error {
-    color: red;
-  }
-
-  #submit-btn:disabled {
-    background-color: gray;
-    cursor: default;
+  .p-dropdown {
+    padding: .3rem .5rem;
   }
 </style>
