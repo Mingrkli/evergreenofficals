@@ -14,7 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Here is the information and details about Ticket
+ * @author Ming, Toby, Lillian, Leah
+ * @version 1.0
+ * Entity class for creating user tickets
+ * This Class uses Lombok to reduce code
+ * for constructors, accessors and mutators
+ *
  */
 @Entity
 // We are putting the details in the database table named ticket_list
@@ -24,7 +29,6 @@ import java.util.List;
 @Data // Creates Setters, Getters, toString, Equals, and HashCode
 @Builder
 public class Ticket {
-    // Who knows what @Valid does :D
     @Valid
 
     @Id

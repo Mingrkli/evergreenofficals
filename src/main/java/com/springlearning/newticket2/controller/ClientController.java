@@ -93,8 +93,8 @@ public class ClientController {
 //    }
 
     /**
-     * Gets all the tickets form the database
-     * @return
+     * Gets all the tickets from the database
+     * @return List<Tickets> from ticketService
      */
     @RequestMapping("/tickets")
     public List<Ticket> getTickets() {

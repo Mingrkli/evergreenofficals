@@ -1,6 +1,3 @@
-<!--Hi Ming, this is Toby from the future...-->
-<!--Hi Ming Once again-->
-<!--Hi Ming Once again, again...-->
 <template>
   <div class="ticket-popup-container">
   <div class="ticket-popup">

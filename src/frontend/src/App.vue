@@ -1,6 +1,3 @@
-<!--
-  Howdy Ming this is Ming :D
--->
 <template>
     <Navbar></Navbar>
     <router-view></router-view>

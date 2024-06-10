@@ -6,6 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author Ming, Toby, Lillian, Leah
+ * @version 1.0
+ * Extends basic CRUD for ticket messages
+ */
 @Repository
 public interface TicketMessageRepository extends JpaRepository<TicketMessage, Long> {
     /**

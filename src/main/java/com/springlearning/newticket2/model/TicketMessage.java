@@ -13,8 +13,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Here is the TicketMessage which would be connected to the Ticket
- */
+ * @author Ming, Toby, Lillian, Leah
+ * @version 1.0
+ * Entity class for creating messages in
+ * the view ticket dialog box, specific to each
+ * ticket
+ * This Class uses Lombok to reduce code
+ * for constructors, accessors and mutators
+ *  */
 @Entity
 // We are putting the details in the database table named ticket_list
 @Table(name = "ticket_messages_list")
