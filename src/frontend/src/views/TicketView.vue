@@ -4,7 +4,7 @@
             <div>
                 <div id="message-name">
                     <router-link to="/" class="btn">Back</router-link>
-                    <h3>{{ticket.name}}</h3>
+                    <h3>{{ticket.ticketName}}</h3>
                 </div>
 
                 <div id="messages">

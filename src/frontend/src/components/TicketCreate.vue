@@ -12,7 +12,7 @@
     <form @submit.prevent="addTicket">
       <div>
         <label for="name">Ticket Name</label>
-        <InputText name="name" v-model="addTicketData.ticket.name" placeholder="Ticket Name"/>
+        <InputText name="name" v-model="addTicketData.ticket.ticketName" placeholder="Ticket Name"/>
         <p v-if="errorName" class="error">{{errorName}}</p>
       </div>
 
@@ -52,7 +52,7 @@ export default {
     return {
       addTicketData: {
         ticket: {
-          name: "",
+          ticketName: "",
           created: "not implemented",
           lastMessage: "not implemented",
           status: "Open",
@@ -73,7 +73,7 @@ export default {
     };
   },
   watch: {
-    'addTicketData.ticket.name': 'validateName',
+    'addTicketData.ticket.ticketName': 'validateName',
     'addTicketData.messageInfo.message': 'validateMessage',
   },
   // With computed it automatically run when any of the dependencies they rely on change
@@ -133,7 +133,7 @@ export default {
         if (data.status === 400) {
           data.text().then((errorMessage) => {
             let testing = JSON.parse(errorMessage);
-            this.errorName = testing.name;
+            this.errorName = testing.ticketName;
             this.errorMessage = testing.lastMessage;
           })
         }

@@ -1,6 +1,5 @@
 package com.springlearning.newticket2.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -36,7 +35,7 @@ public class Ticket {
     @NotBlank(message = "Ticket Name Required")
     @Size(min=4, max=50, message = "Please provide a descriptive" +
             " name for this ticket between 4 and 50 characters")
-    private String name;
+    private String ticketName;
 
     private String created;
     private String lastMessage; // change to date

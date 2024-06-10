@@ -8,6 +8,11 @@ import java.util.List;
 
 @Repository
 public interface TicketMessageRepository extends JpaRepository<TicketMessage, Long> {
+    /**
+     * Find all the tickets by the id
+     * @param ticketId the long number
+     * @return a list of TicketMessage by the ticketId
+     */
     // Basically the select everything by if in the ticket database
     List<TicketMessage> findAllByTicketId(Long ticketId);
 }

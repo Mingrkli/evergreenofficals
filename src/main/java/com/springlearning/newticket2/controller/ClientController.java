@@ -13,10 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * @author Ming, Toby, Lillian, Leah
+ * @version 1.0
+ * The Controller with focus for ticketService fetches
+ */
 @CrossOrigin(origins = "http://localhost:5173/", allowedHeaders = "*")
 @RestController
 public class ClientController {
@@ -29,11 +32,12 @@ public class ClientController {
     /**
      * Adds the ticket
      *
-     * @param AddTicketRequest
-     * @return
+     * @param AddTicketRequest DTO which separates the ticket and the message for easier use
+     * @param bindingResult errors
+     * @return ResponseEntity of error or success HttpStatus with message
      */
     @PostMapping("/add")
-    public ResponseEntity<Map<String, String>> addTicket(
+    public ResponseEntity addTicket(
             @Valid @RequestBody AddTicketRequest AddTicketRequest,
             BindingResult bindingResult) {
 
@@ -41,18 +45,41 @@ public class ClientController {
         Ticket ticket = AddTicketRequest.getTicket();
         TicketMessage message = AddTicketRequest.getMessage();
 
-        // Checks if the ticket fields has errors
+//        if (AddTicketRequest.getTicket().getName() == null) {
+//            return new ResponseEntity<>("You have no name... ", HttpStatus.BAD_REQUEST);
+//        }
+
         if (bindingResult.hasFieldErrors()) {
-            Map<String, String> errors = new HashMap<>();
+            String[] errorsArray = new String[bindingResult.getFieldErrors().size()];
+            final int[] counter = {0};
+            // Map<String, String> errors = new HashMap<>();
 
             bindingResult.getAllErrors().forEach((error) -> {
                 String fieldName = ((FieldError) error).getField();
                 String errorMessage = error.getDefaultMessage();
-                errors.put(fieldName, errorMessage);
+
+                errorsArray[counter[0]] = fieldName + " " + errorMessage;
+
+                counter[0]++;
+
+                // errors.put(fieldName, errorMessage);
             });
 
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorsArray, HttpStatus.BAD_REQUEST);
         }
+
+        // Checks if the ticket fields has errors
+//        if (bindingResult.hasFieldErrors()) {
+//            Map<String, String> errors = new HashMap<>();
+//
+//            bindingResult.getAllErrors().forEach((error) -> {
+//                String fieldName = ((FieldError) error).getField();
+//                String errorMessage = error.getDefaultMessage();
+//                errors.put(fieldName, errorMessage);
+//            });
+//
+//            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+//        }
 
         // Add the ticket and also save the results which we'll use it to add the message to the new ticket is created
         Ticket ticketAddedInfo = ticketService.addTicket(ticket);
@@ -60,6 +87,10 @@ public class ClientController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+//    public static ResponseEntity testing() {
+//        return new ResponseEntity<>("You have no name... ", HttpStatus.BAD_REQUEST);
+//    }
 
     /**
      * Gets all the tickets form the database
@@ -70,6 +101,11 @@ public class ClientController {
         return ticketService.getTickets();
     }
 
+    /**
+     * Gets the ticket by id
+     * @param id long
+     * @return the ticket by the id
+     */
     @GetMapping("/ticket/{id}")
     public Ticket getTicketById(@PathVariable long id) {
         return ticketService.getTicketById(id);
@@ -96,10 +132,17 @@ public class ClientController {
 //        return errors;
 //    }
 
+    /**
+     * Deletes the ticket by the id
+     * @param id long
+     * @return a message saying the ticket was deleted
+     */
     @DeleteMapping("/ticket/delete/{id}")
     public String deleteTicket(@PathVariable long id) {
         ticketService.deleteTicket(id);
         return "Ticket deleted";
     }
+
+
 }
 

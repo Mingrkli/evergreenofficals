@@ -7,7 +7,7 @@
 
       <DataTable :value="tickets" removableSort class="dataTable" @row-click="onRowClick">
         <Column field="id" header="Id" sortable></Column>
-        <Column field="name" header="Name" sortable></Column>
+        <Column field="ticketName" header="Name" sortable></Column>
         <Column field="created" header="Created" sortable></Column>
         <Column field="lastMessage" header="Last Message" sortable></Column>
         <Column field="status" header="Status" sortable></Column>
